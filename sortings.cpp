@@ -30,7 +30,6 @@ void insertionSort(int arr[], int n)
     {
         key = arr[i];
         j = i - 1;
-
         while (j >= 0 && arr[j] > key)
         {
             arr[j + 1] = arr[j];
@@ -100,7 +99,6 @@ void mergeArrays(int arr[], int leftIndex, int midIndex, int rightIndex)
     }
 }
 
-
 void mergeSort(int arr[], int leftIndex, int rightIndex)
 {
     if (leftIndex >= rightIndex)
@@ -123,8 +121,3 @@ int main()
     }
     return 0;
 }
-
-
-
-
-
