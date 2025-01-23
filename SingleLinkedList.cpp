@@ -1,9 +1,8 @@
 #include <iostream>
 using namespace std;
 
-class Node
+struct Node
 {
-public:
     int data;
     Node *next;
     Node() {};
@@ -124,6 +123,42 @@ Node *deleteLastNode(Node *head)
     }
     delete temp->next;
     temp->next = NULL;
+    return head;
+}
+
+Node *deleteNode(Node *head, int pos)
+{
+    if (head == NULL || pos < 1)
+    {
+        return head;
+    }
+
+    if (pos == 1)
+    {
+        Node *temp = head;
+        head = head->next;
+        delete temp;
+        return head;
+    }
+
+    Node *temp = head;
+    int count = 1;
+
+    while (count < pos - 1 && temp->next != NULL)
+    {
+        temp = temp->next;
+        count++;
+    }
+
+    if (temp->next == NULL)
+    {
+        return head;
+    }
+
+    Node *nodeToDelete = temp->next;
+    temp->next = nodeToDelete->next;
+    delete nodeToDelete;
+
     return head;
 }
 
