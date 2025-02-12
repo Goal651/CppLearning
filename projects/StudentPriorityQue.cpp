@@ -30,14 +30,13 @@ public:
     void enqueue(int code, string name, int age) {
         Student* newStudent = new Student(code, name, age);
 
-        // Case 1: Insert at the front (if empty or highest priority)
         if (!front || age > front->age) {
             newStudent->next = front;
             front = newStudent;
             return;
         }
 
-        // Case 2: Traverse and find the correct position
+
         Student* temp = front;
         while (temp->next && temp->next->age >= age) {
             temp = temp->next;
@@ -48,7 +47,7 @@ public:
         temp->next = newStudent;
     }
 
-    // Remove and return the student with the highest priority (oldest)
+
     void dequeue() {
         if (!front) {
             cout << "Queue Underflow - No students in the queue\n";
@@ -61,7 +60,7 @@ public:
         delete temp;
     }
 
-    // Display the queue
+
     void display() {
         if (!front) {
             cout << "Queue is empty\n";
@@ -77,7 +76,6 @@ public:
     }
 };
 
-// Main function to test the priority queue
 int main() {
     StudentPriorityQueue pq;
 
