@@ -9,8 +9,7 @@
 
 using namespace std;
 
-struct CustomerLinkedList
-{
+struct CustomerLinkedList {
     int code;
     string name;
     string dob;
@@ -21,8 +20,7 @@ struct CustomerLinkedList
     CustomerLinkedList(int c, string n, string d, int b) : code(c), name(n), dob(d), balance(b), next(nullptr) {}
 };
 
-struct TransactionLinkedList
-{
+struct TransactionLinkedList {
     int id;
     string type;
     int customer_code;
@@ -34,9 +32,8 @@ struct TransactionLinkedList
     TransactionLinkedList(int i, string t, int cc, int a, string d) : id(i), type(t), customer_code(cc), amount(a), date(d), next(nullptr) {}
 };
 
-class BankSystem
-{
-private:
+class BankSystem {
+  private:
     CustomerLinkedList *customerHead = nullptr;
     TransactionLinkedList *transactionHead = nullptr;
 
@@ -44,28 +41,24 @@ private:
     static int transactionIDCounter;
 
     // Function to validate date format (DD/MM/YYYY)
-    bool isValidDate(const string &date)
-    {
+    bool isValidDate(const string &date) {
         regex datePattern("\\d{2}/\\d{2}/\\d{4}"); // Regex for DD/MM/YYYY format
         return regex_match(date, datePattern);
     }
 
-    void addCustomer()
-    {
+    void addCustomer() {
         int code, balance;
         string name, dob;
 
         cout << "Enter customer code: ";
-        while (!(cin >> code))
-        {
+        while(!(cin >> code)) {
             cout << "Invalid input. Please enter a valid integer for code: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         // Check if the code already exists
-        if (findCustomerByCode(code) != nullptr)
-        {
+        if(findCustomerByCode(code) != nullptr) {
             cout << "Error: Customer code already exists. Please enter a unique code.\n";
             return; // Exit the method without adding the customer
         }
@@ -76,18 +69,16 @@ private:
 
         // Validate the date format
         cout << "Enter customer date of birth (DD/MM/YYYY): ";
-        while (true)
-        {
+        while(true) {
             getline(cin, dob);
-            if (isValidDate(dob))
+            if(isValidDate(dob))
                 break;
             else
                 cout << "Invalid date format. Please enter in DD/MM/YYYY format: ";
         }
 
         cout << "Enter customer balance: ";
-        while (!(cin >> balance))
-        {
+        while(!(cin >> balance)) {
             cout << "Invalid input. Please enter a valid integer for balance: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -100,8 +91,7 @@ private:
         cout << "Customer added successfully.\n";
     }
 
-    void addTransaction()
-    {
+    void addTransaction() {
         int customer_code, amount;
         string type, date;
 
@@ -112,27 +102,22 @@ private:
         int id = transactionIDCounter;
 
         // Prompt for deposit or withdrawal using 'd' or 'w'
-        while (true)
-        {
+        while(true) {
             cout << "Enter transaction type (d for Deposit / w for Withdrawal): ";
             cin >> type;
             transform(type.begin(), type.end(), type.begin(), ::tolower); // Make input case insensitive
 
-            if (type == "d" || type == "w")
-            {
-                if (type == "d") type = "Deposit";
-                if (type == "w") type = "Withdrawal";
+            if(type == "d" || type == "w") {
+                if(type == "d") type = "Deposit";
+                if(type == "w") type = "Withdrawal";
                 break;
-            }
-            else
-            {
+            } else {
                 cout << "Invalid input. Please enter 'd' for Deposit or 'w' for Withdrawal.\n";
             }
         }
 
         cout << "Enter customer code: ";
-        while (!(cin >> customer_code))
-        {
+        while(!(cin >> customer_code)) {
             cout << "Invalid input. Please enter a valid integer for customer code: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -140,15 +125,13 @@ private:
 
         // Check if the customer exists before proceeding with the transaction
         CustomerLinkedList *customer = findCustomerByCode(customer_code);
-        if (customer == nullptr)
-        {
+        if(customer == nullptr) {
             cout << "Customer with code " << customer_code << " does not exist. Transaction cannot be processed.\n";
             return; // Exit the method if the customer doesn't exist
         }
 
         cout << "Enter transaction amount: ";
-        while (!(cin >> amount))
-        {
+        while(!(cin >> amount)) {
             cout << "Invalid input. Please enter a valid integer for amount: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -169,20 +152,14 @@ private:
         transactionHead = newTransaction;
 
         // Update customer's balance based on transaction type
-        if (type == "Deposit")
-        {
+        if(type == "Deposit") {
             customer->balance += amount;
             cout << "Deposit successful. Updated balance: " << customer->balance << "\n";
-        }
-        else if (type == "Withdrawal")
-        {
-            if (customer->balance >= amount)
-            {
+        } else if(type == "Withdrawal") {
+            if(customer->balance >= amount) {
                 customer->balance -= amount;
                 cout << "Withdrawal successful. Updated balance: " << customer->balance << "\n";
-            }
-            else
-            {
+            } else {
                 cout << "Insufficient balance for withdrawal.\n";
             }
         }
@@ -190,13 +167,10 @@ private:
         cout << "Transaction added successfully.\n";
     }
 
-    CustomerLinkedList *findCustomerByCode(int code)
-    {
+    CustomerLinkedList *findCustomerByCode(int code) {
         CustomerLinkedList *current = customerHead;
-        while (current != nullptr)
-        {
-            if (current->code == code)
-            {
+        while(current != nullptr) {
+            if(current->code == code) {
                 return current;
             }
             current = current->next;
@@ -204,13 +178,10 @@ private:
         return nullptr; // Customer not found
     }
 
-    TransactionLinkedList *findTransactionByID(int id)
-    {
+    TransactionLinkedList *findTransactionByID(int id) {
         TransactionLinkedList *current = transactionHead;
-        while (current != nullptr)
-        {
-            if (current->id == id)
-            {
+        while(current != nullptr) {
+            if(current->id == id) {
                 return current;
             }
             current = current->next;
@@ -218,51 +189,41 @@ private:
         return nullptr; // Transaction not found
     }
 
-    void displayCustomerByID()
-    {
+    void displayCustomerByID() {
         int code;
         cout << "Enter customer code: ";
-        while (!(cin >> code))
-        {
+        while(!(cin >> code)) {
             cout << "Invalid input. Please enter a valid integer for customer code: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         CustomerLinkedList *customer = findCustomerByCode(code);
-        if (customer)
-        {
+        if(customer) {
             cout << "Customer Details:\n";
             cout << "Code: " << customer->code << ", Name: " << customer->name
                  << ", DOB: " << customer->dob << ", Balance: " << customer->balance << "\n";
-        }
-        else
-        {
+        } else {
             cout << "Customer with code " << code << " not found.\n";
         }
     }
 
-    void displayTransactionByID()
-    {
+    void displayTransactionByID() {
         int id;
         cout << "Enter transaction ID: ";
-        while (!(cin >> id))
-        {
+        while(!(cin >> id)) {
             cout << "Invalid input. Please enter a valid integer for transaction ID: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         TransactionLinkedList *transaction = findTransactionByID(id);
-        if (transaction)
-        {
+        if(transaction) {
             cout << "Transaction Details:\n";
             cout << "ID: " << transaction->id << ", Type: " << transaction->type
                  << ", Customer Code: " << transaction->customer_code << ", Amount: " << transaction->amount
                  << ", Date: " << transaction->date << "\n";
-        }
-        else
-        {
+        } else {
             cout << "Transaction with ID " << id << " not found.\n";
         }
     }
@@ -270,50 +231,41 @@ private:
 
 
     // Function to check the balance of a specific customer
-    void checkCustomerBalance()
-    {
+    void checkCustomerBalance() {
         int code;
         cout << "Enter customer code to check balance: ";
-        while (!(cin >> code))
-        {
+        while(!(cin >> code)) {
             cout << "Invalid input. Please enter a valid integer for customer code: ";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         CustomerLinkedList *customer = findCustomerByCode(code);
-        if (customer)
-        {
+        if(customer) {
             cout << "Customer Balance:\n";
             cout << "Code: " << customer->code << ", Name: " << customer->name
                  << ", Balance: " << customer->balance << "\n";
-        }
-        else
-        {
+        } else {
             cout << "Customer with code " << code << " not found.\n";
         }
     }
 
- void displayCustomerMenu()
-    {
+    void displayCustomerMenu() {
         int choice;
-        do
-        {
+        do {
             cout << "\nCustomer Menu\n";
             cout << "1. Display All Customers\n";
             cout << "2. Display Customer by Code\n";
             cout << "3. Check Customer Balance\n";
             cout << "4. Exit to Main Menu\n";
             cout << "Enter your choice: ";
-            while (!(cin >> choice))
-            {
+            while(!(cin >> choice)) {
                 cout << "Invalid input. Please enter a valid choice: ";
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
 
-            switch (choice)
-            {
+            switch(choice) {
             case 1:
                 displayCustomers();
                 break;
@@ -330,47 +282,40 @@ private:
                 cout << "Invalid choice. Please select a valid option.\n";
                 break;
             }
-        } while (choice != 4);
+        } while(choice != 4);
     }
 
 
-  
-    void displayCustomers()
-    {
-        if (!customerHead)
-        {
+
+    void displayCustomers() {
+        if(!customerHead) {
             cout << "No customers to display.\n";
             return;
         }
 
         CustomerLinkedList *current = customerHead;
-        while (current != nullptr)
-        {
+        while(current != nullptr) {
             cout << "Code: " << current->code << ", Name: " << current->name
                  << ", DOB: " << current->dob << ", Balance: " << current->balance << "\n";
             current = current->next;
         }
     }
 
-    void displayTransactionMenu()
-    {
+    void displayTransactionMenu() {
         int choice;
-        do
-        {
+        do {
             cout << "\nTransaction Menu\n";
             cout << "1. Display All Transactions\n";
             cout << "2. Display Transaction by ID\n";
             cout << "3. Exit to Main Menu\n";
             cout << "Enter your choice: ";
-            while (!(cin >> choice))
-            {
+            while(!(cin >> choice)) {
                 cout << "Invalid input. Please enter a valid choice: ";
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
 
-            switch (choice)
-            {
+            switch(choice) {
             case 1:
                 displayTransactions();
                 break;
@@ -384,21 +329,18 @@ private:
                 cout << "Invalid choice. Please select a valid option.\n";
                 break;
             }
-        } while (choice != 3);
+        } while(choice != 3);
     }
 
 
-    void displayTransactions()
-    {
-        if (!transactionHead)
-        {
+    void displayTransactions() {
+        if(!transactionHead) {
             cout << "No transactions to display.\n";
             return;
         }
 
         TransactionLinkedList *current = transactionHead;
-        while (current != nullptr)
-        {
+        while(current != nullptr) {
             cout << "ID: " << current->id << ", Type: " << current->type
                  << ", Customer Code: " << current->customer_code << ", Amount: " << current->amount
                  << ", Date: " << current->date << "\n";
@@ -406,16 +348,16 @@ private:
         }
     }
 
-public:
+  public:
     // Static initialization of the transaction ID counter
-    BankSystem() { transactionIDCounter = 0; }
+    BankSystem() {
+        transactionIDCounter = 0;
+    }
 
-    void displayMenu()
-    {
+    void displayMenu() {
         int choice;
 
-        do
-        {
+        do {
             cout << "\nBank System Menu\n";
             cout << "1. Add Customer\n";
             cout << "2. Add Transaction\n";
@@ -423,15 +365,13 @@ public:
             cout << "4. Display Transactions\n";
             cout << "5. Exit\n";
             cout << "Enter your choice: ";
-            while (!(cin >> choice))
-            {
+            while(!(cin >> choice)) {
                 cout << "Invalid input. Please enter a valid choice: ";
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
 
-            switch (choice)
-            {
+            switch(choice) {
             case 1:
                 addCustomer();
                 break;
@@ -451,15 +391,14 @@ public:
                 cout << "Invalid choice. Please select a valid option.\n";
                 break;
             }
-        } while (choice != 5);
+        } while(choice != 5);
     }
 };
 
 // Initialize static variable for auto-increment transaction ID
 int BankSystem::transactionIDCounter = 0;
 
-int main()
-{
+int main() {
     BankSystem bankSystem;
     bankSystem.displayMenu();
     return 0;

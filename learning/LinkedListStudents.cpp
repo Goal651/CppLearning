@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-struct Student
-{
+struct Student {
 
     int code;
     string name;
@@ -11,8 +10,7 @@ struct Student
     int age;
     Student *next;
     Student() {}
-    Student(int c, string nm, string schl, string lvl, int g)
-    {
+    Student(int c, string nm, string schl, string lvl, int g) {
         code = c;
         name = nm;
         school = schl;
@@ -22,10 +20,8 @@ struct Student
     }
 };
 
-void display(Student *head)
-{
-    while (head)
-    {
+void display(Student *head) {
+    while(head) {
         cout << head->code << " " << head->name << " " << head->school << "" << head->level << " "
              << head->age << endl;
         head = head->next;
@@ -33,8 +29,7 @@ void display(Student *head)
     cout << "NULL" << endl;
 }
 
-int main()
-{
+int main() {
     Student *s1 = new Student();
     s1->code = 101;
     s1->name = "Mary";
